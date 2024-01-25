@@ -1,21 +1,19 @@
 import psutil
-#import os
+import os
 import argparse
 import time
-
-# test
 
 def get_cpu_avg_load():
     try:
         # Run the uptime command and capture its output
 
         # Windows
-        load_avg_1min, load_avg_5min, load_avg_15min = psutil.getloadavg()
+        # load_avg_1min, load_avg_5min, load_avg_15min = psutil.getloadavg()
 
         # Linux
         # Get the load averages for 1, 5, and 15 minutes
-        # load_avg_1min, load_avg_5min, load_avg_15min = os.getloadavg()
-
+        load_avg_1min, load_avg_5min, load_avg_15min = os.getloadavg()
+        # print(load_avg_1min, load_avg_5min, load_avg_15min )
         return load_avg_1min, load_avg_5min, load_avg_15min
     except Exception as e:
         print(f"Error: {e}")
@@ -29,7 +27,7 @@ def get_cpu_load():
         print(f"Error: {e}")
         return None
 
-def print_cpu_status(cpu_load, cpu_avg, warnings=[0.9, 0.8, 0.7], criticals=[0.95, 0.85, 0.75]):
+def print_cpu_status(cpu_load, cpu_avg, warnings, criticals):
     print(f"Current CPU Load is {cpu_load}%")
 
 
@@ -45,8 +43,8 @@ def main():
     parser = argparse.ArgumentParser(description='Monitor CPU Load on a Linux System.')
 
     # Add command-line arguments
-    parser.add_argument('-w', '--warnings', nargs=3, type=float, help='CPU usage warning values (provide 3 values)')
-    parser.add_argument('-c', '--criticals', nargs=3, type=float, help='CPU usage critical values (provide 3 values)')
+    parser.add_argument('-w', '--warnings', nargs=3, type=float, default=[0.9, 0.8, 0.7], help='CPU usage warning values (provide 3 values)')
+    parser.add_argument('-c', '--criticals', nargs=3, type=float, default=[0.95, 0.85, 0.75], help='CPU usage critical values (provide 3 values)')
     parser.add_argument('-i', '--interval', type=int, default=10, help='Interval for checking CPU Load in seconds.')
     args = parser.parse_args()
 
