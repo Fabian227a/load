@@ -3,6 +3,8 @@ import psutil
 import argparse
 import time
 
+# test
+
 def get_cpu_avg_load():
     try:
         # Run the uptime command and capture its output
